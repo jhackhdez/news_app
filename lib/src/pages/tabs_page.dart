@@ -42,7 +42,11 @@ class _Navigation extends StatelessWidget {
 class _Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Acceso al provider
+    final navegacionModel = Provider.of<_NavigationModel>(context);
     return PageView(
+      // Acceder a la propiedad que maneja las páginas
+      controller: navegacionModel.pageController,
       physics: const NeverScrollableScrollPhysics(),
       children: [
         Container(
@@ -58,6 +62,8 @@ class _Pages extends StatelessWidget {
 
 class _NavigationModel with ChangeNotifier {
   int _paginaActual = 0;
+  // "_pageController" se encargará de mostrar la página según selección
+  final PageController _pageController = PageController();
 
 // No se define provado este get para poder acceder a él desde cualquier widgets
 // y saber el estado de la variable: _paginaActual
@@ -65,7 +71,12 @@ class _NavigationModel with ChangeNotifier {
 
   set paginaActual(int valor) {
     _paginaActual = valor;
+    // Esta línea maneja el cambio de página con la animación
+    _pageController.animateToPage(valor,
+        duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
     // Notificar a todos los widgets necesarios para que se redibujen
     notifyListeners();
   }
+
+  PageController get pageController => _pageController;
 }
