@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'tab1_page.dart';
+
 class TabsPage extends StatelessWidget {
   const TabsPage({super.key});
 
@@ -49,9 +51,7 @@ class _Pages extends StatelessWidget {
       controller: navegacionModel.pageController,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        Container(
-          color: Colors.red,
-        ),
+        Tab1Page(),
         Container(
           color: Colors.green,
         )
