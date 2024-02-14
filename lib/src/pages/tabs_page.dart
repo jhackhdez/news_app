@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'tab1_page.dart';
+import 'tab2_page.dart';
 
 class TabsPage extends StatelessWidget {
   const TabsPage({super.key});
@@ -50,12 +51,7 @@ class _Pages extends StatelessWidget {
       // Acceder a la propiedad que maneja las páginas
       controller: navegacionModel.pageController,
       physics: const NeverScrollableScrollPhysics(),
-      children: [
-        Tab1Page(),
-        Container(
-          color: Colors.green,
-        )
-      ],
+      children: const [Tab1Page(), Tab2Page()],
     );
   }
 }
@@ -65,7 +61,7 @@ class _NavigationModel with ChangeNotifier {
   // "_pageController" se encargará de mostrar la página según selección
   final PageController _pageController = PageController();
 
-// No se define provado este get para poder acceder a él desde cualquier widgets
+// No se define privado este get para poder acceder a él desde cualquier widgets
 // y saber el estado de la variable: _paginaActual
   int get paginaActual => _paginaActual;
 
