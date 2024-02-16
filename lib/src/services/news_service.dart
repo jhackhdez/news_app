@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:news_app/src/models/category_model.dart';
 import 'package:news_app/src/models/news_models.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +11,16 @@ const _APIKEY = '40370499442d488eb0d9b98f62d02928';
 
 class NewsService with ChangeNotifier {
   List<Article> headLines = [];
+
+  List<Category> categories = [
+    Category(FontAwesomeIcons.building, 'business'),
+    Category(FontAwesomeIcons.tv, 'entertainment'),
+    Category(FontAwesomeIcons.addressCard, 'general'),
+    Category(FontAwesomeIcons.headSideVirus, 'health'),
+    Category(FontAwesomeIcons.vials, 'science'),
+    Category(FontAwesomeIcons.volleyball, 'sports'),
+    Category(FontAwesomeIcons.memory, 'technology')
+  ];
 
   NewsService() {
     getTopHeadLines();
