@@ -11,6 +11,7 @@ const _APIKEY = '40370499442d488eb0d9b98f62d02928';
 
 class NewsService with ChangeNotifier {
   List<Article> headLines = [];
+  String _selectedCategory = 'business';
 
   List<Category> categories = [
     Category(FontAwesomeIcons.building, 'business'),
@@ -22,9 +23,23 @@ class NewsService with ChangeNotifier {
     Category(FontAwesomeIcons.memory, 'technology')
   ];
 
+  Map<String, List<Article>> categoryArticles = {};
+
   NewsService() {
     getTopHeadLines();
+    for (var item in categories) {
+      categoryArticles[item.name] = List.empty();
+    }
   }
+
+  String get selectedCategory => _selectedCategory;
+  set selectedCategory(String value) {
+    _selectedCategory = value;
+    getArticlesByCategory(value);
+    notifyListeners();
+  }
+
+  get getArticulosCategoriaSeleccionada => categoryArticles[selectedCategory];
 
   getTopHeadLines() async {
     // Ejecutar llamada http (nueva forma de hacerlo distinta a como se da en el curso)
@@ -44,5 +59,22 @@ class NewsService with ChangeNotifier {
     } catch (e) {
       return 'failed';
     }
+  }
+
+  // Este método concatena la 'category' seleccionada a la url para obtener la data filtrada
+  getArticlesByCategory(String category) async {
+    // condición para evitar insertar duplicados
+    if (categoryArticles[category]!.isNotEmpty) {
+      return categoryArticles[category];
+    }
+    final url =
+        Uri.parse('$_URL_NEWS/top-headlines?country=us&category=$category');
+    http.Response resp = await http.get(url);
+    // Se obtienen todos los artículos filtrados por la categoría seleccionada
+    final newsResponse = newsResponseFromJson(resp.body);
+    // Esto permite insertas las categorías seleccionadas dentro de la lista de artículos que corresponda
+    categoryArticles[category]!.addAll(newsResponse.articles);
+    // Notifico a los listeners
+    notifyListeners();
   }
 }
